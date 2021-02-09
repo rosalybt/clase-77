@@ -93,24 +93,32 @@ const obtenerUsuariosyHacerHTML = () => {
 			listaDeBotonesModificar.forEach(modificar => {
 
 				modificar.onclick = () => {
+
 					const modal = document.querySelector('.modal')
 					const id = modificar.dataset.userid
-					fetch(`https://601da02bbe5f340017a19d60.mockapi.io/users/${id}`)
-						.then(res => res.json())
-						.then(data2 => {
-							modal.innerHTML = usuarioAModificar(data2)
-							const formularioModificar = document.querySelector('#form-modificar')
-							formularioModificar.onsubmit = (e) => {
-								e.preventDefault()
-								modificarUser(id)
-							}
+					selectedUser(id, modal)
 
-						})
 				}
 			})
 
 		});
 };
+
+
+const selectedUser = (id, container) => {
+	fetch(`https://601da02bbe5f340017a19d60.mockapi.io/users/${id}`)
+		.then(res => res.json())
+		.then(data => {
+			container.innerHTML = usuarioAModificar(data)
+			const formularioModificar = document.querySelector('#form-modificar')
+			formularioModificar.onsubmit = (e) => {
+				e.preventDefault()
+				modificarUser(id)
+			}
+
+		})
+
+}
 
 obtenerUsuariosyHacerHTML();
 
